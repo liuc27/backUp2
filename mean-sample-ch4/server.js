@@ -1,7 +1,10 @@
 var express = require('express'),
     cors = require('cors'),
+    weixin = require('weixin-api'),
     app = express();
+    Useragent = require('express-useragent');
 app.use(cors());
+app.use(Useragent.express());
 var bodyParser = require('body-parser')
 var Post = require('./models/post')
 var Shop = require('./models/shop')
@@ -50,7 +53,10 @@ app.use(bodyParser.json({
     limit: '600kb'
 }))
 app.use(logger('dev'))
-app.use(express.static(__dirname))
+app.use('/images/',express.static(__dirname + '/images/'))
+app.use('/www/',express.static(__dirname + '/www/' ));
+
+
 app.get('/api/posts', limiterGet.middleware({
     innerLimit: 10,
     outerLimit: 60,
@@ -62,8 +68,124 @@ app.get('/api/posts', limiterGet.middleware({
         }
         res.json(posts)
     })
+})
+
+app.get('/www/index.html',function(req, res){
+    console.log(req.useragent)
+    if(req.useragent.source.indexOf('MicroMessenger')>-1){
+        console.log('cool')
+    }else{
+        res.end();
+    }
 
 })
+
+// 接入验证
+app.get('/', function(req, res) {
+    console.log(req.useragent)
+
+    // 签名成功
+    if (weixin.checkSignature(req)) {
+        res.send(200, req.query.echostr);
+    } else {
+        res.send(200, 'fail');
+    }
+});
+
+// config
+weixin.token = 'MeLXEpPPER5ZEZ5P';
+
+// 监听文本消息
+weixin.textMsg(function(msg) {
+    console.log("textMsg received");
+    console.log(JSON.stringify(msg));
+
+    var resMsg = {};
+
+    switch (msg.content) {
+        case "文本" :
+            // 返回文本消息
+            resMsg = {
+                fromUserName : msg.toUserName,
+                toUserName : msg.fromUserName,
+                msgType : "text",
+                content : "这是文本回复",
+                funcFlag : 0
+            };
+            break;
+
+        case "音乐" :
+            // 返回音乐消息
+            resMsg = {
+                fromUserName : msg.toUserName,
+                toUserName : msg.fromUserName,
+                msgType : "music",
+                title : "音乐标题",
+                description : "音乐描述",
+                musicUrl : "音乐url",
+                HQMusicUrl : "高质量音乐url",
+                funcFlag : 0
+            };
+            break;
+
+        case "优惠卷" :
+
+            var articles = [];
+
+            articles[0] = {
+                title : "优惠卷",
+                description : "优惠卷",
+                picUrl : "http://120.24.168.7/www/index.html",
+                url : "http://120.24.168.7/www/index.html"
+            };
+
+
+
+            // 返回图文消息
+            resMsg = {
+                fromUserName : msg.toUserName,
+                toUserName : msg.fromUserName,
+                msgType : "news",
+                articles : articles,
+                funcFlag : 0
+            }
+    }
+
+    weixin.sendMsg(resMsg);
+});
+
+// 监听图片消息
+weixin.imageMsg(function(msg) {
+    console.log("imageMsg received");
+    console.log(JSON.stringify(msg));
+});
+
+// 监听位置消息
+weixin.locationMsg(function(msg) {
+    console.log("locationMsg received");
+    console.log(JSON.stringify(msg));
+});
+
+// 监听链接消息
+weixin.urlMsg(function(msg) {
+    console.log("urlMsg received");
+    console.log(JSON.stringify(msg));
+});
+
+// 监听事件消息
+weixin.eventMsg(function(msg) {
+    console.log("eventMsg received");
+    console.log(JSON.stringify(msg));
+});
+
+// Start
+app.post('/', function(req, res) {
+
+    // loop
+    weixin.loop(req, res);
+
+});
+
 
 app.post('/api/posts', limiterPost.middleware({
     innerLimit: 10,
@@ -121,7 +243,7 @@ app.post('/api/postAll', limiterPostAll.middleware({
 })
 
 var callback = function (idNumber, req, res) {
-    var imageURL = "http://localhost:3000/images/" + req.body.name + ".jpg";
+    var imageURL = "http://120.24.168.7/images/" + req.body.name + ".jpg";
     var post = new Post({
         id: idNumber,
         name: req.body.name,
@@ -164,7 +286,7 @@ app.post('/api/shop', limiterPost.middleware({
     headers: false
 }), function (req, res, next) {
     var idNumber;
-    var imageURL = "http://localhost:3000/shopImages/" + req.body.shopName + ".jpg";
+    var imageURL = "http://120.24.168.7/shopImages/" + req.body.shopName + ".jpg";
     data = req.body.shopImage;
     var base64Data, binaryData;
 
@@ -333,7 +455,7 @@ app.post('/api/replace', limiterReplace.middleware({
     outerLimit: 60,
     headers: false
 }), function (req, res, next) {
-    var imageURL = "http://localhost:3000/images/" + req.body.name + ".jpg";
+    var imageURL = "http://120.24.168.7/images/" + req.body.name + ".jpg";
 
     Post.update({
         "name": req.body.name
@@ -430,6 +552,6 @@ function validUser(user, password) {
     })
     */
 
-app.listen(3000, function () {
-    console.log('server listening on', 3000)
+app.listen(80, function () {
+    console.log('server listening on', 80)
 })
