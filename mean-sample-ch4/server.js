@@ -269,22 +269,25 @@ var callback = function (idNumber, req, res) {
 
     data = req.body.image;
     var base64Data, binaryData;
+    if(data) {
 
-    base64Data = data.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "");
-    base64Data += base64Data.replace('+', ' ');
-    binaryData = new Buffer(base64Data, 'base64').toString('binary');
+        base64Data = data.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "");
+        base64Data += base64Data.replace('+', ' ');
+        binaryData = new Buffer(base64Data, 'base64').toString('binary');
 
-    fs.writeFile("images/" + req.body.name + ".jpg", binaryData, "binary", function (err) {
-        console.log(err); // writes out file without error, but it's not a valid image
-    });
+        fs.writeFile("images/" + req.body.name + ".jpg", binaryData, "binary", function (err) {
+            console.log(err); // writes out file without error, but it's not a valid image
+        });
+    }
 
 
-    post.save(function (err, post) {
-        if (err) {
-            return next(err)
-        }
-        res.status(201).json(post)
-    })
+        post.save(function (err, post) {
+            if (err) {
+                return next(err)
+            }
+            res.status(201).json(post)
+        })
+
 }
 
 
@@ -297,32 +300,34 @@ app.post('/api/shop', limiterPost.middleware({
     var imageURL = "http://120.24.168.7/shopImages/" + req.body.shopName + ".jpg";
     data = req.body.shopImage;
     var base64Data, binaryData;
+    if(data) {
 
-    base64Data = data.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "");
-    base64Data += base64Data.replace('+', ' ');
-    binaryData = new Buffer(base64Data, 'base64').toString('binary');
+        base64Data = data.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "");
+        base64Data += base64Data.replace('+', ' ');
+        binaryData = new Buffer(base64Data, 'base64').toString('binary');
 
-    fs.writeFile("shopImages/" + req.body.shopName + ".jpg", binaryData, "binary", function (err) {
-        console.log(err); // writes out file without error, but it's not a valid image
-    });
+        fs.writeFile("shopImages/" + req.body.shopName + ".jpg", binaryData, "binary", function (err) {
+            console.log(err); // writes out file without error, but it's not a valid image
+        });
+    }
 
-    Shop.update({
-        "shopName": req.body.shopName
-    }, {
-        shopName: req.body.shopName,
-        shopCategory: req.body.shopCategory,
-        shopAddress: req.body.shopAddress,
-        shopContactWay: req.body.shopContactWay,
-        shopImage: imageURL
-    }, {
-        upsert: true
-    },function (err, data) {
-        if(err){
-            res.send("error")
-        } else{
-            res.send("OK")
-        }
-    })
+        Shop.update({
+            "shopName": req.body.shopName
+        }, {
+            shopName: req.body.shopName,
+            shopCategory: req.body.shopCategory,
+            shopAddress: req.body.shopAddress,
+            shopContactWay: req.body.shopContactWay,
+            shopImage: imageURL
+        }, {
+            upsert: true
+        }, function (err, data) {
+            if (err) {
+                res.send("error")
+            } else {
+                res.send("OK")
+            }
+        })
 })
 
 
@@ -488,7 +493,7 @@ app.post('/api/replace', limiterReplace.middleware({
             } else if (data[0].numbers >= 0) {
                 data = req.body.image;
                 var base64Data, binaryData;
-
+if(data){
                 base64Data = data.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "");
                 base64Data += base64Data.replace('+', ' ');
                 binaryData = new Buffer(base64Data, 'base64').toString('binary');
@@ -502,7 +507,9 @@ app.post('/api/replace', limiterReplace.middleware({
                 fs.writeFile("images/" + req.body.name + ".jpg", binaryData, "binary", function (err) {
                     console.log(err); // writes out file without error, but it's not a valid image
                 });
+}
                 res.send("OK")
+
             }
         })
     })
