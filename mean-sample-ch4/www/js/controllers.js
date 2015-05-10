@@ -6,8 +6,10 @@ angular.module('starter.controllers', [])
         $scope.items = things.data
         $scope.chosenItem = {"value": "all"}
 
-        $scope.chooseMenuItem = function(menu){
+        $scope.chooseMenuItem = function(menu,$index){
             $scope.chosenItem.value = menu.type
+            $scope.selectedIndex = $index
+            console.log($index)
         }
 
         console.log($scope.chosenItem.value)
@@ -23,7 +25,7 @@ angular.module('starter.controllers', [])
         }
         $scope.menus = types.getMenu()
         $scope.doRefresh = function () {
-            $http.get("http://localhost:3000/api/posts").success(function (data) {
+            $http.get("http://120.24.168.7/api/posts").success(function (data) {
                 $rootScope.items = data
                 $scope.items = data
                 things.data = data
@@ -36,7 +38,7 @@ angular.module('starter.controllers', [])
     })
 
     .controller('typesCtrl', function ($scope, types) {
-        $scope.types = types.all();
+        $scope.typeList = types.typeList();
     })
 
     .controller('typeDetailCtrl', function ($scope, $http,$rootScope,$stateParams, types, things, possessionData) {
@@ -44,7 +46,7 @@ angular.module('starter.controllers', [])
         console.log($scope.type)
         $scope.items = things.data;
         $scope.doRefresh = function () {
-            $http.get("http://localhost:3000/api/posts").success(function (data) {
+            $http.get("http://120.24.168.7/api/posts").success(function (data) {
                 $rootScope.items = data
                 $scope.items = data
                 things.data = data
@@ -84,6 +86,7 @@ angular.module('starter.controllers', [])
 
         $scope.clicked = false;
         $scope.comment = types.comment($stateParams.couponId);
+        console.log($stateParams.couponId)
         var sumRate = 0, lengthRate = 0;
         console.log($scope.comment)
         angular.forEach($scope.comment, function (value) {
@@ -110,7 +113,7 @@ angular.module('starter.controllers', [])
 
             if($scope.username){
 
-                $http.post("http://localhost:3000/api/comment",{
+                $http.post("http://120.24.168.7/api/comment",{
                     "name": couponName,
                     "username":$scope.username,
                     "comment": $scope.comment.comment,
@@ -124,7 +127,13 @@ angular.module('starter.controllers', [])
                     $scope.averageRate = ((sumRate+$scope.rate.value)/(lengthRate+1)).toFixed(2);
 
                     $scope.commentLength++;
-                    things.data[$stateParams.couponId].comment = data
+
+
+                    angular.forEach(things.data, function (value) {
+                        if (value._id == $stateParams.couponId) {
+                            value.comment = data;
+                        }
+                    })
                 }).error(function(data){
                     console.log(data)
                     if(data == "Rate limit exceeded"){
@@ -160,7 +169,7 @@ angular.module('starter.controllers', [])
                     console.log(possessionData)
                     console.log($scope.username)
                     console.log(_id)
-                    $http.post("http://localhost:3000/api/add", {
+                    $http.post("http://120.24.168.7/api/add", {
                         "name": couponName,
                         "username": $scope.username,
                         "_id": _id
@@ -231,7 +240,7 @@ angular.module('starter.controllers', [])
                     title: '请输入正确的用户名和密码！'
                 });
             }else {
-                $http.post("http://localhost:3000/api/register", {
+                $http.post("http://120.24.168.7/api/register", {
                     "username": username,
                     "password": password
                 }).success(function (data) {

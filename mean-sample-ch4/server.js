@@ -54,7 +54,7 @@ app.use(bodyParser.json({
 }))
 app.use(logger('dev'))
 app.use('/images/',express.static(__dirname + '/images/'))
-app.use('/www/',express.static(__dirname + '/www/' ));
+app.use('/www/',express.static(__dirname + '/www/'))
 
 
 app.get('/api/posts', limiterGet.middleware({
@@ -129,13 +129,21 @@ weixin.textMsg(function(msg) {
             break;
 
         case "优惠卷" :
+        case "红安优惠卷" :
+        case "优惠" :
+        case "打折卷" :
+        case "打折" :
+        case "便宜" :
+        case "活动" :
+        case "做活动" :
+        case "酬宾" :
 
             var articles = [];
 
             articles[0] = {
-                title : "优惠卷",
-                description : "优惠卷",
-                picUrl : "http://120.24.168.7/www/index.html",
+                title : "红安优惠卷",
+                description : "红安优惠卷",
+                picUrl : "http://120.24.168.7/images/icon.jpg",
                 url : "http://120.24.168.7/www/index.html"
             };
 
@@ -469,7 +477,8 @@ app.post('/api/replace', limiterReplace.middleware({
         fullPrice: req.body.fullPrice,
         productIntroduction: req.body.productIntroduction,
         productDetail: req.body.productDetail,
-        timeLimit: req.body.timeLimit
+        timeLimit: req.body.timeLimit,
+        image: imageURL
     }, function () {
         Post.find({
             "name": req.body.name

@@ -351,7 +351,7 @@ div.item.item-body {
 }
 
 .typeListItem{
-    margin: 8px 0;
+    margin: 0.2vw 0;
 }
 
 .item p{
@@ -406,7 +406,7 @@ ul.rating li i {
     padding: 0em;
     box-shadow: 0 0 2vw gray;
     color:white;
-    margin: 0 0 0 7vw;
+    margin: 1vw 0 1vw 7vw;
 }
 
 .menuItem{
@@ -414,9 +414,18 @@ ul.rating li i {
 }
 
 .menu{
-    height: 43vw;
+    height: 48vw;
     width: 100%;
     margin: 0 0 5vw 0;
     padding: 2vw 0 0 0;
     border-width:0;
+}
+
+.selected-class-name{
+    width: 14vw;
+    height:14vw;
+    border-radius: 14vw;
+    margin: 0 0 0 5vw;
+
+
 }
