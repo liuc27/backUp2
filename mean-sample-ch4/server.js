@@ -55,6 +55,7 @@ app.use(bodyParser.json({
 app.use(logger('dev'))
 app.use('/images/',express.static(__dirname + '/images/'))
 app.use('/www/',express.static(__dirname + '/www/'))
+app.use('/shopImages/',express.static(__dirname + '/shopImages/'))
 
 
 app.get('/api/posts', limiterGet.middleware({

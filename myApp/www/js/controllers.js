@@ -42,7 +42,6 @@ angular.module('starter.controllers', [])
   $scope.chosenItem = {"value": "all"}
   $scope.shops = shops.data
 
-  console.log(things)
   // .fromTemplate() method
   var template = '<ion-popover-view><ion-header-bar> <h1 class="title">My Popover Title</h1> </ion-header-bar> <ion-content> Hello! </ion-content></ion-popover-view>';
   $scope.popover = $ionicPopover.fromTemplate(template, {

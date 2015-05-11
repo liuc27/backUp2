@@ -128,7 +128,7 @@ angular.module('starter.services', [])
                     return data
                 })
             },
-          allItems: function () {
+          allShops: function () {
             return  $http.get("http://120.24.168.7/api/shops").success(function (data) {
               console.log(data.length)
               console.log(data)
