@@ -47,7 +47,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                     },
                     possessionData: function(types) {
                         return types.checkPossession()
-                    }
+                    },
+                  shops: function(types) {
+                    return types.allShops()
+                  }
                 }
             })
 

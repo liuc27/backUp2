@@ -137,6 +137,7 @@ weixin.textMsg(function(msg) {
         case "活动" :
         case "做活动" :
         case "酬宾" :
+        case "coupon" :
 
             var articles = [];
 

@@ -5,11 +5,29 @@
         </button>
     </ion-nav-buttons>
     -->
-    <ion-content>
-        <ion-list>
-            <ion-item class="typeListItem" ng-repeat="type in typeList" type="item-text-wrap" href="#/tab/type/{{type.id}}">
-                {{type.name}}
-            </ion-item>
-        </ion-list>
+  <ion-content >
+      <div class="button-bar">
+        <a class="button buttonSpace button-block button-calm " ng-click="openPopover($event)">category</a>
+        <a class="button buttonSpace button-block button-calm">location</a>
+        <a class="button buttonSpace button-block button-calm">order</a>
+      </div>
+
+    <ion-refresher pulling-text="刷新中" on-refresh="doRefresh()">
+    </ion-refresher>
+
+  <div class=" bordLine  " collection-repeat="shop in shops | typeFilter : chosenItem.value | orderBy :'-id'">
+    <a href="#/tab/coupon-detail/{{shop._id}}" class=" item item-thumbnail-left borderRadius5">
+      <img class="product_image" ng-src="{{ shop.shopImage }}">
+      <div lang="zh-cn" class="category">{{shop.shopCategory}}</div>
+      <ul>
+        <li  lang="zh-cn" class="productName">{{shop.shopName}}</li>
+        <li  lang="zh-cn" class="productIntroduction">{{shop.shopIntroduction}}</li>
+        <li  lang="zh-cn">
+          <div class = "fullPrice floatLeft">{{shop.shopAddress}}</div>
+         
+        </li>
+      </ul>
+    </a>
+  </div>
     </ion-content>
 </ion-view>

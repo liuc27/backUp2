@@ -4,6 +4,10 @@
     font-family: "Hiragino Sans GB","Helvetica Neue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif, 微软雅黑, 宋体, 楷体_GB2312, 隶书;
 }
 
+.buttonSpace{
+  padding: 1vw
+}
+
 body {
     background-color: #FAEDF0;
     overflow: scroll;

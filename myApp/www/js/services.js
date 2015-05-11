@@ -128,6 +128,14 @@ angular.module('starter.services', [])
                     return data
                 })
             },
+          allItems: function () {
+            return  $http.get("http://120.24.168.7/api/shops").success(function (data) {
+              console.log(data.length)
+              console.log(data)
+              shops = data
+              return data
+            })
+          },
             favoriteList: function () {
                 return checked;
             },
