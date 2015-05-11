@@ -70,6 +70,20 @@ app.get('/api/posts', limiterGet.middleware({
     })
 })
 
+app.get('/api/shops', limiterGet.middleware({
+    innerLimit: 10,
+    outerLimit: 60,
+    headers: false
+}), function (req, res, next) {
+    Shop.find({}, function (err, shops) {
+        if (err) {
+            return next(err)
+        }
+        res.json(shops)
+    })
+})
+
+
 app.get('/www/index.html',function(req, res){
     console.log(req.useragent)
     if(req.useragent.source.indexOf('MicroMessenger')>-1){
@@ -292,7 +306,7 @@ var callback = function (idNumber, req, res) {
 }
 
 
-app.post('/api/shop', limiterPost.middleware({
+app.post('/api/shops', limiterPost.middleware({
     innerLimit: 10,
     outerLimit: 60,
     headers: false
@@ -491,26 +505,26 @@ app.post('/api/replace', limiterReplace.middleware({
         }, function (err, data) {
             if (err) {
                 return next(err)
-            } else if (data[0].numbers >= 0) {
-                data = req.body.image;
-                var base64Data, binaryData;
-if(data){
-                base64Data = data.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "");
-                base64Data += base64Data.replace('+', ' ');
-                binaryData = new Buffer(base64Data, 'base64').toString('binary');
+            } else if (data && data[0]) {
+                if (data[0].numbers >= 0) {
+                    data = req.body.image;
+                    var base64Data, binaryData;
+                        base64Data = data.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "");
+                        base64Data += base64Data.replace('+', ' ');
+                        binaryData = new Buffer(base64Data, 'base64').toString('binary');
 
-                if (fs.exists("images/" + req.body.name + ".jpg")) {
-                    fs.unlink("images/" + req.body.name + ".jpg", function (err) {
-                        if (err) throw err;
-                        console.log('successfully deleted ');
-                    });
+                        if (fs.exists("images/" + req.body.name + ".jpg")) {
+                            fs.unlink("images/" + req.body.name + ".jpg", function (err) {
+                                if (err) throw err;
+                                console.log('successfully deleted ');
+                            });
+                        }
+                        fs.writeFile("images/" + req.body.name + ".jpg", binaryData, "binary", function (err) {
+                            console.log(err); // writes out file without error, but it's not a valid image
+                        });
+                    res.send("OK")
+
                 }
-                fs.writeFile("images/" + req.body.name + ".jpg", binaryData, "binary", function (err) {
-                    console.log(err); // writes out file without error, but it's not a valid image
-                });
-}
-                res.send("OK")
-
             }
         })
     })
