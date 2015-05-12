@@ -43,20 +43,21 @@ angular.module('starter.controllers', [])
   $scope.shops = shops.data
 
   // .fromTemplate() method
-  var template = '<ion-popover-view><ion-header-bar> <h1 class="title">My Popover Title</h1> </ion-header-bar> <ion-content> Hello! </ion-content></ion-popover-view>';
-  $scope.popover = $ionicPopover.fromTemplate(template, {
+  $ionicPopover.fromTemplateUrl('../templates/popoverCategory.html', {
     scope: $scope
+  }).then(function(popover) {
+    $scope.popoverCategory = popover;
   });
 
-  $scope.openPopover = function($event) {
-    $scope.popover.show($event);
+  $scope.openPopoverCategory = function($event) {
+    $scope.popoverCategory.show($event);
   };
-  $scope.closePopover = function() {
-    $scope.popover.hide();
+  $scope.closePopoverCategory = function() {
+    $scope.popoverCategory.hide();
   };
   //Cleanup the popover when we're done with it!
   $scope.$on('$destroy', function() {
-    $scope.popover.remove();
+    $scope.popoverCategory.remove();
   });
   // Execute action on hide popover
   $scope.$on('popover.hidden', function() {

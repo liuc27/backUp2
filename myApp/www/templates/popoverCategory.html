@@ -1,0 +1,14 @@
+<ion-popover-view>
+  <!--<ion-header-bar> 
+    <h1 class="title">category</h1> 
+  </ion-header-bar>-->
+  <ion-content> 
+    <ion-list>
+      <ion-item class="typeListItem" ng-repeat="type in typeList" type="item-text-wrap" href="#/tab/type/{{type.id}} " ng-click="closePopoverCategory($event)">
+        {{type.name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+
+
+</ion-popover-view>
