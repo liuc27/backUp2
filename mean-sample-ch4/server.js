@@ -2,7 +2,7 @@ var express = require('express'),
     cors = require('cors'),
     weixin = require('weixin-api'),
     app = express();
-    Useragent = require('express-useragent');
+Useragent = require('express-useragent');
 app.use(cors());
 app.use(Useragent.express());
 var bodyParser = require('body-parser')
@@ -297,12 +297,12 @@ var callback = function (idNumber, req, res) {
     }
 
 
-        post.save(function (err, post) {
-            if (err) {
-                return next(err)
-            }
-            res.status(201).json(post)
-        })
+    post.save(function (err, post) {
+        if (err) {
+            return next(err)
+        }
+        res.status(201).json(post)
+    })
 
 }
 
@@ -327,36 +327,36 @@ app.post('/api/shops', limiterPost.middleware({
         });
     }
 
-        Shop.update({
-            "shopName": req.body.shopName
-        }, {
-            shopName: req.body.shopName,
-            shopCategory: req.body.shopCategory,
-            shopAddress: req.body.shopAddress,
-            shopContactWay: req.body.shopContactWay,
-            shopImage: imageURL
-        }, {
-            upsert: true
-        }, function (err, data) {
-            if (err) {
-                res.send("error")
-            } else {
-                res.send("OK")
-            }
-        })
+    Shop.update({
+        "shopName": req.body.shopName
+    }, {
+        shopName: req.body.shopName,
+        shopCategory: req.body.shopCategory,
+        shopAddress: req.body.shopAddress,
+        shopContactWay: req.body.shopContactWay,
+        shopImage: imageURL
+    }, {
+        upsert: true
+    }, function (err, data) {
+        if (err) {
+            res.send("error")
+        } else {
+            res.send("OK")
+        }
+    })
 })
 
 
 /*
-app.get('/api/user',function (req, res, next) {
-    User.find(function (err, data) {
-        if (err) {
-            return next(err)
-        }
-        res.json(data)
-    })
-})
-*/
+ app.get('/api/user',function (req, res, next) {
+ User.find(function (err, data) {
+ if (err) {
+ return next(err)
+ }
+ res.json(data)
+ })
+ })
+ */
 
 
 app.post('/api/user', limiterUser.middleware({
@@ -510,19 +510,19 @@ app.post('/api/replace', limiterReplace.middleware({
                 if (data[0].numbers >= 0) {
                     data = req.body.image;
                     var base64Data, binaryData;
-                        base64Data = data.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "");
-                        base64Data += base64Data.replace('+', ' ');
-                        binaryData = new Buffer(base64Data, 'base64').toString('binary');
+                    base64Data = data.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "");
+                    base64Data += base64Data.replace('+', ' ');
+                    binaryData = new Buffer(base64Data, 'base64').toString('binary');
 
-                        if (fs.exists("images/" + req.body.name + ".jpg")) {
-                            fs.unlink("images/" + req.body.name + ".jpg", function (err) {
-                                if (err) throw err;
-                                console.log('successfully deleted ');
-                            });
-                        }
-                        fs.writeFile("images/" + req.body.name + ".jpg", binaryData, "binary", function (err) {
-                            console.log(err); // writes out file without error, but it's not a valid image
+                    if (fs.exists("images/" + req.body.name + ".jpg")) {
+                        fs.unlink("images/" + req.body.name + ".jpg", function (err) {
+                            if (err) throw err;
+                            console.log('successfully deleted ');
                         });
+                    }
+                    fs.writeFile("images/" + req.body.name + ".jpg", binaryData, "binary", function (err) {
+                        console.log(err); // writes out file without error, but it's not a valid image
+                    });
                     res.send("OK")
 
                 }
@@ -574,15 +574,15 @@ function findUsername(users, user) {
 }
 
 function validUser(user, password) {
-        return user.password === password
-    }
-    /*
-    app.get('/api/user', limiter.middleware({innerLimit: 10, outerLimit: 60}),function (req, res, next) {
-        var token = req.headers['x-auth']
-        var user = jwt.decode(token, secretKey)
-        res.json(user)
-    })
-    */
+    return user.password === password
+}
+/*
+ app.get('/api/user', limiter.middleware({innerLimit: 10, outerLimit: 60}),function (req, res, next) {
+ var token = req.headers['x-auth']
+ var user = jwt.decode(token, secretKey)
+ res.json(user)
+ })
+ */
 
 app.listen(80, function () {
     console.log('server listening on', 80)
