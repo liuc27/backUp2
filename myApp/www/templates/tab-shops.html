@@ -15,7 +15,7 @@
     <ion-refresher pulling-text="刷新中" on-refresh="doRefresh()">
     </ion-refresher>
 
-  <div class=" bordLine  " collection-repeat="shop in shops | typeFilter : chosenItem.value | orderBy :'-id'">
+  <div class=" bordLine" collection-repeat="shop in shops | shopFilter : chosenItem.value | orderBy :'-id'">
     <a href="#/tab/shop-detail/{{shop._id}}" class=" item item-thumbnail-left borderRadius5">
       <img class="product_image" ng-src="{{ shop.shopImage }}">
       <div lang="zh-cn" class="category">{{shop.shopCategory}}</div>

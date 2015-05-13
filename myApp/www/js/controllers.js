@@ -41,7 +41,12 @@ angular.module('starter.controllers', [])
   $scope.typeList = types.typeList();
   $scope.chosenItem = {"value": "all"}
   $scope.shops = shops.data
-
+$scope.choosePopoverItem = function(type){
+  $scope.chosenItem.value = type.type;
+  console.log(type.type)
+  $scope.popoverCategory.hide();
+}
+  
   // .fromTemplate() method
   $ionicPopover.fromTemplateUrl('../templates/popoverCategory.html', {
     scope: $scope
@@ -70,18 +75,17 @@ angular.module('starter.controllers', [])
     })
 
     .controller('ShopDetailCtrl', function ($scope, $http,$rootScope,$stateParams, types, shops, things) {
+  //$scope.shops = shops.data;
   $scope.shop = types.fetchShop($stateParams.shopId);
-  console.log($stateParams)
-        $scope.shops = shops.data;
-  console.log($scope.shop._id)
-  $scope.items = things.data;
-  $scope.chosenShop = {value: "all"}
-  $scope.chosenShop.value = $scope.shop.shopName
-  console.log($scope.chosenShop)
-  console.log($scope.items)
-
-        $scope.doRefresh = function () {
-            $http.get("http://120.24.168.7/api/shops").success(function (data) {
+  var shopItems = [];
+  angular.forEach(things.data,function(itemValue){
+    if(itemValue.shopName == $scope.shop.shopName){
+      shopItems.push(itemValue)
+    }   
+  })
+  $scope.items = shopItems; 
+  $scope.doRefresh = function () {
+  $http.get("http://120.24.168.7/api/shops").success(function (data) {
                 $rootScope.shops = data
                 $scope.shops = data
                 shops.data = data

@@ -28,18 +28,19 @@ angular.module('starter.filters', [])
                     result.push(itemValue)
                 }
             })
+            console.log(result)
             return result
             }
         }
     })
   .filter('shopFilter', function() {
-  return function(items, shop) {
-    if(shop == "all"){
-      return items
+  return function(shops, shopType) {
+    if(shopType == "all"){
+      return shops
     } else{
       var result = [];
-      angular.forEach(items,function(itemValue) {
-        if (itemValue.shopName == shop) {
+      angular.forEach(shops,function(itemValue) {
+        if (itemValue.shopCategory == shopType) {
           result.push(itemValue)
         }
       })
