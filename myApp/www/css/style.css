@@ -424,6 +424,8 @@ ul.rating li i {
     height:14vw;
     border-radius: 14vw;
     margin: 0 0 0 5vw;
+}
 
-
+.popover{
+  height: auto;
 }

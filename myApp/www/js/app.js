@@ -114,37 +114,34 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 }
             })
 
-            .state('tab.tab-types', {
-                url: '/types',
+            .state('tab.tab-shops', {
+                url: '/shops',
                 views: {
                     'tab-types': {
-                        templateUrl: 'templates/tab-types.html',
-                        controller: 'typesCtrl'
+                        templateUrl: 'templates/tab-shops.html',
+                        controller: 'shopsCtrl'
                     }
                 }
             })
 
-
-            .state('tab.tab-types-couponList', {
-                url: '/type/:typeId',
+            .state('tab.tab-shop-detail', {
+                url: '/shop-detail/:shopId',
                 views: {
                     'tab-types': {
-                        templateUrl: 'templates/tab-types-couponList.html',
-                        controller: 'typeDetailCtrl'
+                        templateUrl: 'templates/tab-shop-detail.html',
+                        controller: 'ShopDetailCtrl'
                     }
                 }
             })
-
-            .state('tab.tab-types-couponList-detail', {
-                url: '/tab-types-couponList-detail/:couponId',
-                views: {
-                    'tab-types': {
-                        templateUrl: 'templates/tab-coupon-detail.html',
-                        controller: 'CouponDetailCtrl'
-                    }
-                }
-            })
-
+          .state('tab.tab-shop-coupon-detail', {
+          url: '/shop-detail-item/:couponId',
+          views: {
+            'tab-types': {
+              templateUrl: 'templates/tab-coupon-detail.html',
+              controller: 'CouponDetailCtrl'
+            }
+          }
+        })
             .state('tab.favoriteList', {
                 url: '/favoriteList',
                 views: {

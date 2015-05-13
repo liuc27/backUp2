@@ -37,7 +37,7 @@ angular.module('starter.controllers', [])
         }
     })
 
-  .controller('typesCtrl', function ($scope, types, shops, $ionicPopover) {
+  .controller('shopsCtrl', function ($scope, types, shops, $ionicPopover) {
   $scope.typeList = types.typeList();
   $scope.chosenItem = {"value": "all"}
   $scope.shops = shops.data
@@ -69,28 +69,26 @@ angular.module('starter.controllers', [])
   });
     })
 
-    .controller('typeDetailCtrl', function ($scope, $http,$rootScope,$stateParams, types, things, possessionData) {
-        $scope.type = types.get($stateParams.typeId).type;
-        console.log($scope.type)
-        $scope.items = things.data;
+    .controller('ShopDetailCtrl', function ($scope, $http,$rootScope,$stateParams, types, shops, things) {
+  $scope.shop = types.fetchShop($stateParams.shopId);
+  console.log($stateParams)
+        $scope.shops = shops.data;
+  console.log($scope.shop._id)
+  $scope.items = things.data;
+  $scope.chosenShop = {value: "all"}
+  $scope.chosenShop.value = $scope.shop.shopName
+  console.log($scope.chosenShop)
+  console.log($scope.items)
+
         $scope.doRefresh = function () {
-            $http.get("http://120.24.168.7/api/posts").success(function (data) {
-                $rootScope.items = data
-                $scope.items = data
-                things.data = data
+            $http.get("http://120.24.168.7/api/shops").success(function (data) {
+                $rootScope.shops = data
+                $scope.shops = data
+                shops.data = data
             }).finally(function () {
                 // Stop the ion-refresher from spinning
                 $scope.$broadcast('scroll.refreshComplete');
             });
-        }
-        $scope.find = function(item) {
-            var exist = false;
-            angular.forEach(possessionData.data, function (value) {
-                if (value == item._id) {
-                    exist = true;
-                }
-            });
-            return exist;
         }
     })
 

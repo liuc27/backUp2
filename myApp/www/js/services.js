@@ -110,6 +110,15 @@ angular.module('starter.services', [])
                 })
                 return x;
             },
+          fetchShop: function (shopId) {
+            var x = [];
+            angular.forEach(shops, function (value) {
+              if (value._id == shopId) {
+                x = value;
+              }
+            })
+            return x;
+          },
             fetchFavorite: function (couponId) {
                 return checked[couponId];
             },

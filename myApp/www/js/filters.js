@@ -32,6 +32,21 @@ angular.module('starter.filters', [])
             }
         }
     })
+  .filter('shopFilter', function() {
+  return function(items, shop) {
+    if(shop == "all"){
+      return items
+    } else{
+      var result = [];
+      angular.forEach(items,function(itemValue) {
+        if (itemValue.shopName == shop) {
+          result.push(itemValue)
+        }
+      })
+      return result
+    }
+  }
+})
  /**
  * Created by chao liu on 2014/11/23.
   $scope.find = function(item) {
