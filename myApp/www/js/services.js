@@ -104,7 +104,7 @@ angular.module('starter.services', [])
             fetch: function (couponId) {
                 var x = [];
                 angular.forEach(items, function (value) {
-                    if (value.id == couponId) {
+                    if (value._id == couponId) {
                             x = value;
                     }
                 })
@@ -149,7 +149,14 @@ angular.module('starter.services', [])
                 return checked;
             },
             comment: function (couponId) {
-                return (items[couponId].comment) ? items[couponId].comment : false;
+
+                var x = [];
+                angular.forEach(items, function (value) {
+                    if (value._id == couponId) {
+                        x = value.comment;
+                    }
+                })
+                return x;
             },
             checkPossession: function(){
                 return $http.post("http://120.24.168.7/api/user", {

@@ -51,7 +51,7 @@
     </div>
     
   <div class=" bordLine  " collection-repeat="item in items | orderBy :'-id'">
-    <a href="#/tab/shop-detail-item/{{item.id}}" class=" item item-thumbnail-left borderRadius5">
+    <a href="#/tab/shop-detail-item/{{item._id}}" class=" item item-thumbnail-left borderRadius5">
       <img class="product_image" ng-src="{{ item.image }}">
       <div lang="zh-cn" class="category" ng-if="item.numbers>0">剩{{item.numbers}}</div>
       <div lang="zh-cn" class="category" ng-if="item.numbers<=0">没有剩余</div>
