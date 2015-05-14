@@ -9,7 +9,7 @@
       <div class="button-bar">
         <a class="button buttonSpace button-block button-calm " ng-click="openPopoverCategory($event)">cate<div style = "float: right" class="ion-chevron-down"></div></a>
         <a class="button buttonSpace button-block button-calm" ng-click="openPopoverCategory($event)">location<div style = "float: right" class="ion-chevron-down"></div></a>
-        <a class="button buttonSpace button-block button-calm" ng-click="openPopoverCategory($event)">order<div style = "float: right" class="ion-chevron-down"></div></a>
+        <a class="button buttonSpace button-block button-calm" ng-click="openPopoverOrder($event)">order<div style = "float: right" class="ion-chevron-down"></div></a>
       </div>
 
     <ion-refresher pulling-text="刷新中" on-refresh="doRefresh()">
@@ -24,7 +24,7 @@
         <li  lang="zh-cn" class="productIntroduction">{{shop.shopIntroduction}}</li>
         <li  lang="zh-cn">
           <div class = "fullPrice floatLeft">{{shop.shopAddress}}</div>
-         
+
         </li>
       </ul>
     </a>

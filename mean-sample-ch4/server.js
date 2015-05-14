@@ -53,17 +53,17 @@ app.use(bodyParser.json({
     limit: '600kb'
 }))
 app.use(logger('dev'))
-app.use('/images/',express.static(__dirname + '/images/'))
-app.use('/www/',express.static(__dirname + '/www/'))
-app.use('/shopImages/',express.static(__dirname + '/shopImages/'))
+app.use('/images/', express.static(__dirname + '/images/'))
+app.use('/www/', express.static(__dirname + '/www/'))
+app.use('/shopImages/', express.static(__dirname + '/shopImages/'))
 
 
 app.get('/api/posts', limiterGet.middleware({
     innerLimit: 10,
     outerLimit: 60,
     headers: false
-}), function (req, res, next) {
-    Post.find({}, function (err, posts) {
+}), function(req, res, next) {
+    Post.find({}, function(err, posts) {
         if (err) {
             return next(err)
         }
@@ -75,8 +75,8 @@ app.get('/api/shops', limiterGet.middleware({
     innerLimit: 10,
     outerLimit: 60,
     headers: false
-}), function (req, res, next) {
-    Shop.find({}, function (err, shops) {
+}), function(req, res, next) {
+    Shop.find({}, function(err, shops) {
         if (err) {
             return next(err)
         }
@@ -85,11 +85,11 @@ app.get('/api/shops', limiterGet.middleware({
 })
 
 
-app.get('/www/index.html',function(req, res){
+app.get('/www/index.html', function(req, res) {
     console.log(req.useragent)
-    if(req.useragent.source.indexOf('MicroMessenger')>-1){
+    if (req.useragent.source.indexOf('MicroMessenger') > -1) {
         console.log('cool')
-    }else{
+    } else {
         res.end();
     }
 
@@ -118,60 +118,60 @@ weixin.textMsg(function(msg) {
     var resMsg = {};
 
     switch (msg.content) {
-        case "文本" :
+        case "文本":
             // 返回文本消息
             resMsg = {
-                fromUserName : msg.toUserName,
-                toUserName : msg.fromUserName,
-                msgType : "text",
-                content : "这是文本回复",
-                funcFlag : 0
+                fromUserName: msg.toUserName,
+                toUserName: msg.fromUserName,
+                msgType: "text",
+                content: "这是文本回复",
+                funcFlag: 0
             };
             break;
 
-        case "音乐" :
+        case "音乐":
             // 返回音乐消息
             resMsg = {
-                fromUserName : msg.toUserName,
-                toUserName : msg.fromUserName,
-                msgType : "music",
-                title : "音乐标题",
-                description : "音乐描述",
-                musicUrl : "音乐url",
-                HQMusicUrl : "高质量音乐url",
-                funcFlag : 0
+                fromUserName: msg.toUserName,
+                toUserName: msg.fromUserName,
+                msgType: "music",
+                title: "音乐标题",
+                description: "音乐描述",
+                musicUrl: "音乐url",
+                HQMusicUrl: "高质量音乐url",
+                funcFlag: 0
             };
             break;
 
-        case "优惠卷" :
-        case "红安优惠卷" :
-        case "优惠" :
-        case "打折卷" :
-        case "打折" :
-        case "便宜" :
-        case "活动" :
-        case "做活动" :
-        case "酬宾" :
-        case "coupon" :
+        case "优惠卷":
+        case "红安优惠卷":
+        case "优惠":
+        case "打折卷":
+        case "打折":
+        case "便宜":
+        case "活动":
+        case "做活动":
+        case "酬宾":
+        case "coupon":
 
             var articles = [];
 
             articles[0] = {
-                title : "红安优惠卷",
-                description : "红安优惠卷",
-                picUrl : "http://120.24.168.7/images/icon.jpg",
-                url : "http://120.24.168.7/www/index.html"
+                title: "红安优惠卷",
+                description: "红安优惠卷",
+                picUrl: "http://120.24.168.7/images/icon.jpg",
+                url: "http://120.24.168.7/www/index.html"
             };
 
 
 
             // 返回图文消息
             resMsg = {
-                fromUserName : msg.toUserName,
-                toUserName : msg.fromUserName,
-                msgType : "news",
-                articles : articles,
-                funcFlag : 0
+                fromUserName: msg.toUserName,
+                toUserName: msg.fromUserName,
+                msgType: "news",
+                articles: articles,
+                funcFlag: 0
             }
     }
 
@@ -215,12 +215,12 @@ app.post('/api/posts', limiterPost.middleware({
     innerLimit: 10,
     outerLimit: 60,
     headers: false
-}), function (req, res, next) {
+}), function(req, res, next) {
     var idNumber;
 
     Post.find({
         "name": req.body.name
-    }, function (err, data) {
+    }, function(err, data) {
 
         if (err) {
 
@@ -230,7 +230,7 @@ app.post('/api/posts', limiterPost.middleware({
 
             console.log("nice")
 
-            Post.find({}, function (err, posts) {
+            Post.find({}, function(err, posts) {
                 console.log("nice!")
 
                 if (err) {
@@ -250,9 +250,9 @@ app.post('/api/postAll', limiterPostAll.middleware({
     innerLimit: 10,
     outerLimit: 60,
     headers: false
-}), function (req, res, next) {
+}), function(req, res, next) {
     var idNumber;
-    Post.find({}, function (err, posts) {
+    Post.find({}, function(err, posts) {
         if (err) {
             return next(err)
         } else {
@@ -266,7 +266,7 @@ app.post('/api/postAll', limiterPostAll.middleware({
     })
 })
 
-var callback = function (idNumber, req, res) {
+var callback = function(idNumber, req, res) {
     var imageURL = "http://120.24.168.7/images/" + req.body.name + ".jpg";
     var post = new Post({
         id: idNumber,
@@ -285,19 +285,19 @@ var callback = function (idNumber, req, res) {
 
     data = req.body.image;
     var base64Data, binaryData;
-    if(data) {
+    if (data) {
 
         base64Data = data.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "");
         base64Data += base64Data.replace('+', ' ');
         binaryData = new Buffer(base64Data, 'base64').toString('binary');
 
-        fs.writeFile("images/" + req.body.name + ".jpg", binaryData, "binary", function (err) {
+        fs.writeFile("images/" + req.body.name + ".jpg", binaryData, "binary", function(err) {
             console.log(err); // writes out file without error, but it's not a valid image
         });
     }
 
 
-    post.save(function (err, post) {
+    post.save(function(err, post) {
         if (err) {
             return next(err)
         }
@@ -311,18 +311,18 @@ app.post('/api/shops', limiterPost.middleware({
     innerLimit: 10,
     outerLimit: 60,
     headers: false
-}), function (req, res, next) {
+}), function(req, res, next) {
     var idNumber;
     var imageURL = "http://120.24.168.7/shopImages/" + req.body.shopName + ".jpg";
     data = req.body.shopImage;
     var base64Data, binaryData;
-    if(data) {
+    if (data) {
 
         base64Data = data.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "");
         base64Data += base64Data.replace('+', ' ');
         binaryData = new Buffer(base64Data, 'base64').toString('binary');
 
-        fs.writeFile("shopImages/" + req.body.shopName + ".jpg", binaryData, "binary", function (err) {
+        fs.writeFile("shopImages/" + req.body.shopName + ".jpg", binaryData, "binary", function(err) {
             console.log(err); // writes out file without error, but it's not a valid image
         });
     }
@@ -337,7 +337,7 @@ app.post('/api/shops', limiterPost.middleware({
         shopImage: imageURL
     }, {
         upsert: true
-    }, function (err, data) {
+    }, function(err, data) {
         if (err) {
             res.send("error")
         } else {
@@ -363,10 +363,10 @@ app.post('/api/user', limiterUser.middleware({
     innerLimit: 10,
     outerLimit: 60,
     headers: false
-}), function (req, res, next) {
+}), function(req, res, next) {
     User.find({
         username: req.body.username
-    }, function (err, data) {
+    }, function(err, data) {
         console.log(data)
         console.log(req.body.username)
         if (err) {
@@ -388,13 +388,13 @@ app.post('/api/types', limiterTypes.middleware({
     innerLimit: 10,
     outerLimit: 60,
     headers: false
-}), function (req, res, next) {
+}), function(req, res, next) {
     var type = new Type({
         id: req.body.id,
         name: req.body.name,
         category: req.body.category
     })
-    type.save(function (err, type) {
+    type.save(function(err, type) {
         if (err) {
             return next(err)
         }
@@ -406,7 +406,7 @@ app.post('/api/add', limiterAdd.middleware({
     innerLimit: 10,
     outerLimit: 60,
     headers: false
-}), function (req, res, next) {
+}), function(req, res, next) {
     console.log(req.body)
     Post.update({
         "name": req.body.name
@@ -414,17 +414,17 @@ app.post('/api/add', limiterAdd.middleware({
         $inc: {
             numbers: -1
         }
-    }, function () {
+    }, function() {
         User.update({
             "username": req.body.username
         }, {
             $push: {
                 "possession": req.body._id
             }
-        }, function () {
+        }, function() {
             Post.find({
                 name: req.body.name
-            }, function (err, data) {
+            }, function(err, data) {
                 console.log(data)
                 if (err) {
                     return next(err)
@@ -449,7 +449,7 @@ app.post('/api/comment', limiterComment.middleware({
     outerTimeLimit: 3600000,
     outerLimit: 1,
     headers: false
-}), function (req, res, next) {
+}), function(req, res, next) {
     console.log(req.body);
     Post.update({
         "name": req.body.name
@@ -462,10 +462,10 @@ app.post('/api/comment', limiterComment.middleware({
                 rate: req.body.rate
             }
         }
-    }, function () {
+    }, function() {
         Post.find({
             "name": req.body.name
-        }, function (err, data) {
+        }, function(err, data) {
             if (err) {
                 return next(err)
             } else {
@@ -483,7 +483,7 @@ app.post('/api/replace', limiterReplace.middleware({
     innerLimit: 10,
     outerLimit: 60,
     headers: false
-}), function (req, res, next) {
+}), function(req, res, next) {
     var imageURL = "http://120.24.168.7/images/" + req.body.name + ".jpg";
 
     Post.update({
@@ -500,10 +500,10 @@ app.post('/api/replace', limiterReplace.middleware({
         productDetail: req.body.productDetail,
         timeLimit: req.body.timeLimit,
         image: imageURL
-    }, function () {
+    }, function() {
         Post.find({
             "name": req.body.name
-        }, function (err, data) {
+        }, function(err, data) {
             if (err) {
                 return next(err)
             } else if (data && data[0]) {
@@ -515,12 +515,12 @@ app.post('/api/replace', limiterReplace.middleware({
                     binaryData = new Buffer(base64Data, 'base64').toString('binary');
 
                     if (fs.exists("images/" + req.body.name + ".jpg")) {
-                        fs.unlink("images/" + req.body.name + ".jpg", function (err) {
+                        fs.unlink("images/" + req.body.name + ".jpg", function(err) {
                             if (err) throw err;
                             console.log('successfully deleted ');
                         });
                     }
-                    fs.writeFile("images/" + req.body.name + ".jpg", binaryData, "binary", function (err) {
+                    fs.writeFile("images/" + req.body.name + ".jpg", binaryData, "binary", function(err) {
                         console.log(err); // writes out file without error, but it's not a valid image
                     });
                     res.send("OK")
@@ -535,10 +535,10 @@ app.post('/api/register', limiterRegister.middleware({
     innerLimit: 10,
     outerLimit: 60,
     headers: false
-}), function (req, res, next) {
+}), function(req, res, next) {
     var name = req.body.username
     var password = req.body.password
-    User.find({}, function (err, data) {
+    User.find({}, function(err, data) {
         if (err) {
             return next(err)
         }
@@ -554,7 +554,7 @@ app.post('/api/register', limiterRegister.middleware({
                 password: req.body.password,
                 phonenumber: req.body.phonenumber
             })
-            user.save(function (err, data) {
+            user.save(function(err, data) {
                 if (err) {
                     return next(err)
                 }
@@ -574,16 +574,16 @@ function findUsername(users, user) {
 }
 
 function validUser(user, password) {
-    return user.password === password
-}
-/*
- app.get('/api/user', limiter.middleware({innerLimit: 10, outerLimit: 60}),function (req, res, next) {
- var token = req.headers['x-auth']
- var user = jwt.decode(token, secretKey)
- res.json(user)
- })
- */
+        return user.password === password
+    }
+    /*
+     app.get('/api/user', limiter.middleware({innerLimit: 10, outerLimit: 60}),function (req, res, next) {
+     var token = req.headers['x-auth']
+     var user = jwt.decode(token, secretKey)
+     res.json(user)
+     })
+     */
 
-app.listen(80, function () {
+app.listen(80, function() {
     console.log('server listening on', 80)
 })
