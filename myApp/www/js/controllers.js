@@ -39,7 +39,6 @@ angular.module('starter.controllers', [])
   }
 })
 
-<<<<<<< Updated upstream
     .controller('shopsCtrl', function ($scope, types, shops, $ionicPopover) {
         $scope.typeList = types.typeList();
         $scope.chosenItem = {"value": "all"}
@@ -107,68 +106,7 @@ angular.module('starter.controllers', [])
             });
         }
     })
-=======
-.controller('shopsCtrl', function ($scope, types, shops, $ionicPopover) {
-  $scope.typeList = types.typeList();
-  $scope.chosenItem = {
-    "value": "all"
-  }
-  $scope.shops = shops.data
-  $scope.choosePopoverItem = function (type) {
-    $scope.chosenItem.value = type.type;
-    console.log(type.type)
-    $scope.popoverCategory.hide();
-  }
 
-  // .fromTemplate() method
-  $ionicPopover.fromTemplateUrl('../templates/popoverCategory.html', {
-    scope: $scope
-  }).then(function (popover) {
-    $scope.popoverCategory = popover;
-  });
-
-  $scope.openPopoverCategory = function ($event) {
-    $scope.popoverCategory.show($event);
-  };
-  $scope.closePopoverCategory = function () {
-    $scope.popoverCategory.hide();
-  };
-  //Cleanup the popover when we're done with it!
-  $scope.$on('$destroy', function () {
-    $scope.popoverCategory.remove();
-  });
-  // Execute action on hide popover
-  $scope.$on('popover.hidden', function () {
-    // Execute action
-  });
-  // Execute action on remove popover
-  $scope.$on('popover.removed', function () {
-    // Execute action
-  });
-})
-
-.controller('ShopDetailCtrl', function ($scope, $http, $rootScope, $stateParams, types, shops, things) {
-  //$scope.shops = shops.data;
-  $scope.shop = types.fetchShop($stateParams.shopId);
-  var shopItems = [];
-  angular.forEach(things.data, function (itemValue) {
-    if (itemValue.shopName == $scope.shop.shopName) {
-      shopItems.push(itemValue)
-    }
-  })
-  $scope.items = shopItems;
-  $scope.doRefresh = function () {
-    $http.get("http://120.24.168.7/api/shops").success(function (data) {
-      $rootScope.shops = data
-      $scope.shops = data
-      shops.data = data
-    }).finally(function () {
-      // Stop the ion-refresher from spinning
-      $scope.$broadcast('scroll.refreshComplete');
-    });
-  }
-})
->>>>>>> Stashed changes
 
 .controller('CouponDetailCtrl', function ($scope, $stateParams, localStorageService, $ionicPopup, $ionicScrollDelegate, types, $http, things, preLoadAccount, possessionData) {
 
